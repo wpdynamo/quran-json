@@ -133,10 +133,13 @@ import Layout from '../layouts/Layout.astro';
                 </div>
                 <div class="control-group">
                     <label class="control-label">عرض الترجمة</label>
-                    <label class="toggle-switch">
-                        <input type="checkbox" x-model="showTranslation">
-                        <span class="toggle-slider"></span>
-                    </label>
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" x-model="showTranslation">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">إظهار الترجمة الإنجليزية</span>
+                    </div>
                 </div>
             </div>
         </div>
