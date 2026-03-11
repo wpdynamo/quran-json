@@ -287,8 +287,25 @@
             const verse = currentVerses[index];
             const reciterId = document.getElementById('reciterSelect').value;
             
-            // Build audio URL
-            const audioUrl = `https://verses.quran.com/${reciterId}/${verse.s}${String(verse.a).padStart(3, '0')}.mp3`;
+            // Build audio URL - using correct CDN
+            // Format: https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3
+            const audioUrl = `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${verse.s}.mp3`;
+            
+            // For verse-by-verse, we need different approach
+            // Let's use everyayah.com which has verse-by-verse audio
+            const reciterMap = {
+                '1': 'Abdul_Basit_Murattal_192kbps',
+                '2': 'Abdurrahmaan_As-Sudais_192kbps',
+                '3': 'Abdullah_Basfar_192kbps',
+                '4': 'Abu_Bakr_Ash-Shaatree_128kbps',
+                '5': 'Hani_Rifai_192kbps',
+                '7': 'Alafasy_128kbps'
+            };
+            
+            const reciterFolder = reciterMap[reciterId] || 'Alafasy_128kbps';
+            const paddedSurah = String(verse.s).padStart(3, '0');
+            const paddedAyah = String(verse.a).padStart(3, '0');
+            const verseAudioUrl = `https://everyayah.com/data/${reciterFolder}/${paddedSurah}${paddedAyah}.mp3`;
             
             const audio = document.getElementById('audio');
             const player = document.getElementById('audioPlayer');
@@ -302,8 +319,11 @@
             // Add playing class to current verse
             document.getElementById(`verse-${index}`).classList.add('playing');
             
-            audio.src = audioUrl;
-            audio.play();
+            audio.src = verseAudioUrl;
+            audio.play().catch(err => {
+                console.error('Error playing audio:', err);
+                alert('عذراً، حدث خطأ في تشغيل الصوت');
+            });
             
             player.classList.add('active');
             nowPlaying.textContent = `الآية ${verse.a} من سورة ${chapters.find(ch => ch.id === verse.s).name_arabic}`;
