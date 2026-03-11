@@ -1,15 +1,23 @@
 // Load header and footer components
 async function loadComponents() {
     try {
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        const footerPlaceholder = document.getElementById('footer-placeholder');
+        
+        if (!headerPlaceholder || !footerPlaceholder) {
+            console.error('Placeholders not found');
+            return;
+        }
+        
         // Load header
         const headerResponse = await fetch('/components/header.html');
         const headerHTML = await headerResponse.text();
-        document.getElementById('header-placeholder').innerHTML = headerHTML;
+        headerPlaceholder.innerHTML = headerHTML;
         
         // Load footer
         const footerResponse = await fetch('/components/footer.html');
         const footerHTML = await footerResponse.text();
-        document.getElementById('footer-placeholder').innerHTML = footerHTML;
+        footerPlaceholder.innerHTML = footerHTML;
         
         // Set active nav link based on current page
         setActiveNavLink();
@@ -24,7 +32,7 @@ function setActiveNavLink() {
     
     navLinks.forEach(link => {
         const linkPath = link.getAttribute('href');
-        if (currentPath === linkPath || (currentPath === '/' && linkPath === '/')) {
+        if (currentPath === linkPath || (currentPath === '/' && linkPath === '/') || (currentPath.endsWith('/index.html') && linkPath === '/')) {
             link.classList.add('active');
         }
     });
