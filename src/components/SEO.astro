@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const { title, description, canonical, ogImage } = Astro.props;
+const siteUrl = 'https://quran-json-sigma.vercel.app';
+const defaultOgImage = `${siteUrl}/og-image.png`;
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical || siteUrl + Astro.url.pathname} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical || siteUrl + Astro.url.pathname} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage || defaultOgImage} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonical || siteUrl + Astro.url.pathname} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={ogImage || defaultOgImage} />
+
+<!-- Additional Meta Tags -->
+<meta name="robots" content="index, follow" />
+<meta name="language" content="Arabic" />
+<meta name="author" content="Quran JSON API" />
+<meta name="keywords" content="quran, قرآن, quran api, quran json, islamic, القرآن الكريم, quran reader" />
+
+<!-- Structured Data -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Quran JSON API",
+  "description": description,
+  "url": siteUrl,
+  "inLanguage": ["ar", "en"],
+  "about": {
+    "@type": "Thing",
+    "name": "القرآن الكريم",
+    "description": "The Holy Quran"
+  }
+})} />

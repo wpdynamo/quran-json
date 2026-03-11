@@ -1,14 +1,20 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
 import '../styles/global.css';
 
 interface Props {
   title: string;
+  description?: string;
   currentPage?: string;
 }
 
-const { title, currentPage } = Astro.props;
+const { 
+  title, 
+  description = 'API مجاني يوفر نصوص القرآن الكريم بالعربية مع الترجمة الإنجليزية بصيغة JSON',
+  currentPage 
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -16,11 +22,19 @@ const { title, currentPage } = Astro.props;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
+    <SEO title={title} description={description} />
 </head>
 <body>
     <Header currentPage={currentPage} />
     <slot />
     <Footer />
+    
+    <script>
+      // @ts-ignore
+      import Alpine from 'alpinejs'
+      // @ts-ignore
+      window.Alpine = Alpine
+      Alpine.start()
+    </script>
 </body>
 </html>
