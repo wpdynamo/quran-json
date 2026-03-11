@@ -19,49 +19,83 @@
         .header {
             background: #2c3e50;
             color: white;
-            padding: 20px 15px;
-            text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: relative;
         }
-        .back-btn {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.15);
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo:hover {
+            opacity: 0.9;
+        }
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-link {
             color: white;
             text-decoration: none;
             padding: 8px 15px;
             border-radius: 6px;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 0.9em;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            background: rgba(255,255,255,0.1);
         }
-        .back-btn:hover {
-            background: rgba(255,255,255,0.25);
+        .nav-link:hover {
+            background: rgba(255,255,255,0.2);
         }
-        .back-btn::before {
-            content: '←';
-            font-size: 1.2em;
+        .nav-link.active {
+            background: #27ae60;
         }
-        .header h1 {
+        .page-title {
+            text-align: center;
+            padding: 20px 15px 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .page-title h1 {
             font-size: 1.5em;
-            margin-bottom: 15px;
+            margin-bottom: 0;
             font-weight: 600;
         }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
+        .controls-section {
+            background: white;
+            padding: 20px 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        .controls select {
+        .controls-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        .control-label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        .controls-wrapper select {
             padding: 12px 15px;
-            border: none;
+            border: 2px solid #e0e0e0;
             border-radius: 6px;
             font-size: 1em;
             background: white;
@@ -69,9 +103,12 @@
             width: 100%;
             color: #2c3e50;
             font-weight: 500;
+            transition: all 0.3s;
         }
-        .controls select:focus {
-            outline: 2px solid #3498db;
+        .controls-wrapper select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
         }
         .back-link {
             display: inline-block;
@@ -254,19 +291,38 @@
 
         /* Tablet and Desktop */
         @media (min-width: 768px) {
-            .header h1 {
+            .nav-bar {
+                padding: 20px;
+            }
+            .logo {
+                font-size: 1.5em;
+            }
+            .nav-links {
+                gap: 15px;
+            }
+            .nav-link {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .page-title {
+                padding: 25px 20px 20px;
+            }
+            .page-title h1 {
                 font-size: 2.2em;
-                margin-bottom: 20px;
             }
-            .controls {
-                flex-direction: row;
-                justify-content: center;
-                max-width: 800px;
-                margin: 0 auto;
+            .controls-section {
+                padding: 30px 20px;
             }
-            .controls select {
-                width: auto;
-                min-width: 200px;
+            .controls-wrapper {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            .control-group {
+                margin-bottom: 0;
+            }
+            .control-label {
+                font-size: 1em;
             }
             .container {
                 max-width: 1000px;
@@ -331,20 +387,40 @@
 </head>
 <body>
     <div class="header">
-        <a href="/" class="back-btn">الرئيسية</a>
-        <h1>📖 قارئ القرآن الكريم</h1>
-        <div class="controls">
-            <select id="surahSelect" onchange="loadSurah()">
-                <option value="">اختر السورة...</option>
-            </select>
-            <select id="reciterSelect">
-                <option value="7">مشاري راشد العفاسي</option>
-                <option value="1">عبد الباسط عبد الصمد</option>
-                <option value="2">عبد الرحمن السديس</option>
-                <option value="3">عبد الله بصفر</option>
-                <option value="4">أبو بكر الشاطري</option>
-                <option value="5">هاني الرفاعي</option>
-            </select>
+        <nav class="nav-bar">
+            <a href="/" class="logo">
+                <span>🕌</span>
+                <span>Quran API</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">الرئيسية</a>
+                <a href="/reader.html" class="nav-link active">القارئ</a>
+            </div>
+        </nav>
+        <div class="page-title">
+            <h1>قارئ القرآن الكريم</h1>
+        </div>
+    </div>
+
+    <div class="controls-section">
+        <div class="controls-wrapper">
+            <div class="control-group">
+                <label class="control-label">اختر السورة</label>
+                <select id="surahSelect" onchange="loadSurah()">
+                    <option value="">اختر السورة...</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">اختر القارئ</label>
+                <select id="reciterSelect">
+                    <option value="7">مشاري راشد العفاسي</option>
+                    <option value="1">عبد الباسط عبد الصمد</option>
+                    <option value="2">عبد الرحمن السديس</option>
+                    <option value="3">عبد الله بصفر</option>
+                    <option value="4">أبو بكر الشاطري</option>
+                    <option value="5">هاني الرفاعي</option>
+                </select>
+            </div>
         </div>
     </div>
 

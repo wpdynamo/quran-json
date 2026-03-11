@@ -14,9 +14,54 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f8f9fa;
             min-height: 100vh;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo:hover {
+            opacity: 0.9;
+        }
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .content-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: calc(100vh - 60px);
             padding: 20px;
         }
         .container {
@@ -95,6 +140,19 @@
 
         /* Tablet and Desktop */
         @media (min-width: 768px) {
+            .nav-bar {
+                padding: 20px;
+            }
+            .logo {
+                font-size: 1.5em;
+            }
+            .nav-links {
+                gap: 15px;
+            }
+            .nav-link {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
             .container {
                 padding: 60px 40px;
             }
@@ -130,7 +188,21 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
+        <nav class="nav-bar">
+            <a href="/" class="logo">
+                <span>🕌</span>
+                <span>Quran API</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">الرئيسية</a>
+                <a href="/reader.html" class="nav-link">القارئ</a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="container">
         <div class="error-code">404</div>
         <h1>الصفحة غير موجودة</h1>
         <p>عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها.</p>
@@ -146,6 +218,7 @@
         </div>
 
         <a href="/" class="btn">العودة للرئيسية</a>
+    </div>
     </div>
 </body>
 </html>
