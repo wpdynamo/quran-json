@@ -2,13 +2,13 @@
 
 Arabic Uthmānī script + English translation:
 - **AR**: Arabic Uthmani script  
-- **TL**: English translation (Sahih International)
+- **EN**: English translation (Sahih International)
 
 Also includes **Juz** and **Madani Page (1–604)** indexes.
 
 Data is generated from Quran.com API v4 at build time and hosted as static files on Vercel.
 
-**Note**: English translation is stored in the `tl` field instead of the traditional `tr` structure for simpler JSON format.
+**Note**: Simple JSON structure with Arabic in `ar` field and English in `en` field.
 
 ## Download (examples)
 

@@ -178,7 +178,7 @@ def fetch_surah(surah: int,
         "page": v.get("page_number"),
         "ruku": v.get("ruku_number")
       }
-      out.append({"s":s,"a":a,"ar":v.get("text_uthmani") or "","tl":english_translation,"m":m})
+      out.append({"s":s,"a":a,"ar":v.get("text_uthmani") or "","en":english_translation,"m":m})
 
       if m["juz"] is not None:  by_juz[int(m["juz"])].append((s,a))
       if m["page"] is not None: by_page[int(m["page"])].append((s,a))
@@ -203,7 +203,7 @@ def main():
   print("Selected translations:")
   for lang, tid in tr_ids.items():
     m = tr_meta[tid]
-    print(f"  {lang}: {(m.get('resource_name') or m.get('name'))} (id={tid}) -> stored in 'tl' field")
+    print(f"  {lang}: {(m.get('resource_name') or m.get('name'))} (id={tid}) -> stored in '{lang}' field")
 
   by_juz, by_page = defaultdict(list), defaultdict(list)
   manifest_surahs = []
@@ -233,7 +233,7 @@ def main():
         "id": tr_ids[lang],
         "name": tr_meta[tr_ids[lang]].get("resource_name") or tr_meta[tr_ids[lang]].get("name"),
         "language": tr_meta[tr_ids[lang]].get("language_name"),
-        "field": "tl"
+        "field": "en"
       } for lang in ["en"]
     },
     "surahCount": 114,
