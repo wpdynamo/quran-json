@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import alpine from '@astrojs/alpinejs';
 
 export default defineConfig({
-  site: 'https://quran-json-sigma.vercel.app',
+  site: 'https://quran.wpdynamo.com',
   output: 'static',
   build: {
     format: 'directory'
