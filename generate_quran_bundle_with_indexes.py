@@ -205,6 +205,29 @@ def main():
     m = tr_meta[tid]
     print(f"  {lang}: {(m.get('resource_name') or m.get('name'))} (id={tid}) -> stored in '{lang}' field")
 
+  # Fetch chapters info
+  print("\nFetching chapters info...")
+  chapters_data = http_get("/chapters")
+  chapters_list = []
+  for ch in chapters_data.get("chapters", []):
+    chapters_list.append({
+      "id": ch.get("id"),
+      "name_arabic": ch.get("name_arabic"),
+      "name_english": ch.get("name_simple"),
+      "name_transliteration": ch.get("name_complex"),
+      "verses_count": ch.get("verses_count"),
+      "revelation_place": ch.get("revelation_place"),
+      "revelation_order": ch.get("revelation_order"),
+      "pages": ch.get("pages")
+    })
+  (OUT_DIR / "chapters.json").write_text(json.dumps(chapters_list, ensure_ascii=False, indent=2), "utf-8")
+  print("✅ Chapters info saved")
+
+  # Copy Allah names
+  import shutil
+  shutil.copy("allah_names.json", OUT_DIR / "allah_names.json")
+  print("✅ Allah names copied")
+
   by_juz, by_page = defaultdict(list), defaultdict(list)
   manifest_surahs = []
 
@@ -242,7 +265,7 @@ def main():
     "checks": {"verseCounts": True, "sha256": True}
   }
   (OUT_DIR / "manifest_multi.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), "utf-8")
-  print("✅ Done → assets/quran/ (114 surahs + manifest + index_juz.json + index_pages.json)")
+  print("✅ Done → assets/quran/ (114 surahs + chapters.json + allah_names.json + manifest + indexes)")
 
 if __name__ == "__main__":
   main()
