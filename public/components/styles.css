@@ -84,9 +84,10 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;
 
 /* 404 Page Styles */
 .content-wrapper{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 60px);padding:20px}
+.content-wrapper .container{max-width:600px;background:white;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);padding:40px 20px;text-align:center}
 .error-code{font-size:5em;font-weight:bold;color:#e74c3c;margin-bottom:15px}
-h1{color:#2c3e50;margin-bottom:15px;font-size:1.5em}
-p{color:#7f8c8d;line-height:1.7;margin-bottom:25px;font-size:1em}
+.content-wrapper h1{color:#2c3e50;margin-bottom:15px;font-size:1.5em}
+.content-wrapper p{color:#7f8c8d;line-height:1.7;margin-bottom:25px;font-size:1em}
 .suggestions{background:#f8f9fa;padding:20px;border-radius:8px;margin:25px 0;text-align:right}
 .suggestions h3{color:#2c3e50;margin-bottom:12px;font-size:1.1em}
 .suggestions ul{list-style:none}
@@ -125,8 +126,10 @@ p{color:#7f8c8d;line-height:1.7;margin-bottom:25px;font-size:1em}
 .audio-player{padding:20px}
 .audio-info{font-size:1.1em;margin-bottom:15px}
 .audio-controls button{padding:12px 30px;font-size:1em}
-h1{font-size:2em;margin-bottom:20px}
-p{font-size:1.1em;margin-bottom:30px}
+.content-wrapper .container{padding:60px 40px}
+.error-code{font-size:7em;margin-bottom:20px}
+.content-wrapper h1{font-size:2em;margin-bottom:20px}
+.content-wrapper p{font-size:1.1em;margin-bottom:30px}
 .suggestions{padding:25px;margin:30px 0}
 .suggestions h3{font-size:1.2em;margin-bottom:15px}
 .suggestions li{padding:10px 0;font-size:1em}
