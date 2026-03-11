@@ -1,0 +1,9 @@
+# Node / Python
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Generated at build
+assets/
+public/assets/quran/

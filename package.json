@@ -1,0 +1,7 @@
+{
+  "name": "quran-json-multilang-v4",
+  "private": true,
+  "scripts": {
+    "build": "python3 -m pip install -r requirements.txt && python3 generate_quran_bundle_with_indexes.py && mkdir -p public/assets/quran && cp -R assets/quran/* public/assets/quran/ && cd public && zip -9 -r quran-json-multilang-v4.zip assets/quran && cd -"
+  }
+}
