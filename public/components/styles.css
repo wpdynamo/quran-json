@@ -44,7 +44,6 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;
 .fields-list code{background:#3498db;color:white;padding:4px 12px;border-radius:4px;font-weight:600;margin-left:8px;font-size:0.95em}
 
 /* Reader Page Styles */
-body.reader-page{padding-bottom:80px}
 .page-title{text-align:center;padding:20px 15px 15px;background:#2c3e50;color:white}
 .page-title h1{font-size:1.5em;margin-bottom:0;font-weight:600}
 .controls-section{background:white;padding:20px 15px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
