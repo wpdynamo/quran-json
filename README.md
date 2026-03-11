@@ -13,11 +13,18 @@ Data is generated from Quran.com API v4 at build time and hosted as static files
 ## Download (examples)
 
 - `/assets/quran/manifest_multi.json` - Metadata
+- `/assets/quran/stats.json` - Statistics
 - `/assets/quran/chapters.json` - Chapters info (names, verses count, revelation place)
 - `/assets/quran/allah_names.json` - 99 Names of Allah
 - `/assets/quran/index_juz.json` - Juz index
 - `/assets/quran/index_pages.json` - Pages index
 - `/assets/quran/s001.json` … `/assets/quran/s114.json` - Surahs
+
+## Features
+
+- 🔍 **Search Page**: `/search.html` - Search in Quran (Arabic & English)
+- 📊 **Statistics**: Total verses, longest/shortest surah, and more
+- 📖 **Complete Info**: Chapter names, revelation place, verse counts
 
 Example absolute URL:
 https://<your-project>.vercel.app/assets/quran/s002.json

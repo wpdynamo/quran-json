@@ -228,6 +228,22 @@ def main():
   shutil.copy("allah_names.json", OUT_DIR / "allah_names.json")
   print("✅ Allah names copied")
 
+  # Generate statistics
+  stats = {
+    "total_surahs": 114,
+    "total_verses": sum(AYAH_COUNTS.values()),
+    "longest_surah": {"id": 2, "name": "Al-Baqarah", "verses": 286},
+    "shortest_surah": {"id": 108, "name": "Al-Kawthar", "verses": 3},
+    "makkah_surahs": 86,
+    "madinah_surahs": 28,
+    "total_juz": 30,
+    "total_pages": 604,
+    "languages": ["ar", "en"],
+    "generated_at": int(time.time())
+  }
+  (OUT_DIR / "stats.json").write_text(json.dumps(stats, ensure_ascii=False, indent=2), "utf-8")
+  print("✅ Statistics generated")
+
   by_juz, by_page = defaultdict(list), defaultdict(list)
   manifest_surahs = []
 
@@ -265,7 +281,7 @@ def main():
     "checks": {"verseCounts": True, "sha256": True}
   }
   (OUT_DIR / "manifest_multi.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), "utf-8")
-  print("✅ Done → assets/quran/ (114 surahs + chapters.json + allah_names.json + manifest + indexes)")
+  print("✅ Done → assets/quran/ (114 surahs + chapters + allah_names + stats + indexes)")
 
 if __name__ == "__main__":
   main()
