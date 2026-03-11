@@ -12,7 +12,7 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f7fa;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -22,69 +22,73 @@
         .container {
             max-width: 600px;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             padding: 60px 40px;
             text-align: center;
         }
         .error-code {
             font-size: 8em;
             font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #e74c3c;
             margin-bottom: 20px;
         }
         h1 {
-            color: #333;
+            color: #2c3e50;
             margin-bottom: 20px;
             font-size: 2em;
         }
         p {
-            color: #666;
+            color: #7f8c8d;
             line-height: 1.8;
             margin-bottom: 30px;
             font-size: 1.1em;
         }
         .suggestions {
-            background: #f8f9fa;
-            padding: 20px;
+            background: #ecf0f1;
+            padding: 25px;
             border-radius: 8px;
             margin: 30px 0;
             text-align: right;
         }
         .suggestions h3 {
-            color: #764ba2;
+            color: #2c3e50;
             margin-bottom: 15px;
+            font-size: 1.3em;
         }
         .suggestions ul {
             list-style: none;
         }
         .suggestions li {
-            padding: 8px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        .suggestions li:last-child {
+            border-bottom: none;
         }
         .suggestions a {
-            color: #667eea;
+            color: #3498db;
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.2s;
         }
         .suggestions a:hover {
-            text-decoration: underline;
+            color: #2980b9;
         }
         .btn {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #3498db;
             color: white;
             padding: 15px 40px;
-            border-radius: 50px;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.3s;
+            font-weight: 600;
+            transition: all 0.3s;
         }
         .btn:hover {
+            background: #2980b9;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(52,152,219,0.3);
         }
     </style>
 </head>
