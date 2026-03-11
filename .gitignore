@@ -7,3 +7,7 @@ __pycache__/
 # Generated at build
 assets/
 public/assets/quran/
+
+# IDE
+.vscode/
+.idea/
