@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "AbdulBaset AbdulSamad",
+    "arabic_name": "عبد الباسط عبد الصمد",
+    "style": "Mujawwad"
+  },
+  {
+    "id": 2,
+    "name": "Abdur-Rahman as-Sudais",
+    "arabic_name": "عبد الرحمن السديس",
+    "style": "Murattal"
+  },
+  {
+    "id": 3,
+    "name": "Abdullah Basfar",
+    "arabic_name": "عبد الله بصفر",
+    "style": "Murattal"
+  },
+  {
+    "id": 4,
+    "name": "Abu Bakr al-Shatri",
+    "arabic_name": "أبو بكر الشاطري",
+    "style": "Murattal"
+  },
+  {
+    "id": 5,
+    "name": "Hani ar-Rifai",
+    "arabic_name": "هاني الرفاعي",
+    "style": "Murattal"
+  },
+  {
+    "id": 6,
+    "name": "Mahmoud Khalil Al-Hussary",
+    "arabic_name": "محمود خليل الحصري",
+    "style": "Murattal"
+  },
+  {
+    "id": 7,
+    "name": "Mishari Rashid al-Afasy",
+    "arabic_name": "مشاري راشد العفاسي",
+    "style": "Murattal"
+  },
+  {
+    "id": 8,
+    "name": "Mohamed Siddiq al-Minshawi",
+    "arabic_name": "محمد صديق المنشاوي",
+    "style": "Mujawwad"
+  },
+  {
+    "id": 9,
+    "name": "Sa`ud ash-Shuraym",
+    "arabic_name": "سعود الشريم",
+    "style": "Murattal"
+  },
+  {
+    "id": 10,
+    "name": "Mahmoud Ali Al-Banna",
+    "arabic_name": "محمود علي البنا",
+    "style": "Mujawwad"
+  }
+]

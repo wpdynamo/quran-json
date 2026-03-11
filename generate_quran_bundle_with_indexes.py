@@ -228,20 +228,9 @@ def main():
   shutil.copy("allah_names.json", OUT_DIR / "allah_names.json")
   print("✅ Allah names copied")
 
-  # Fetch reciters list
-  print("\nFetching reciters...")
-  reciters_data = http_get("/resources/chapter_reciters")
-  reciters_list = []
-  for rec in reciters_data.get("reciters", []):
-    reciters_list.append({
-      "id": rec.get("id"),
-      "name": rec.get("name"),
-      "arabic_name": rec.get("arabic_name"),
-      "style": rec.get("style"),
-      "format": rec.get("format", "mp3")
-    })
-  (OUT_DIR / "reciters.json").write_text(json.dumps(reciters_list, ensure_ascii=False, indent=2), "utf-8")
-  print(f"✅ Reciters saved ({len(reciters_list)} reciters)")
+  # Copy reciters list
+  shutil.copy("reciters.json", OUT_DIR / "reciters.json")
+  print("✅ Reciters list copied")
 
   # Generate statistics
   stats = {
