@@ -11,6 +11,7 @@ dist/
 # Generated at build
 assets/
 public/assets/quran/
+*.zip
 
 # IDE
 .vscode/
