@@ -105,10 +105,6 @@ import Layout from '../layouts/Layout.astro';
   currentPage="reader"
 >
     <div x-data="window.quranReaderData" x-init="loadChapters()">
-        <div class="page-title">
-            <h1>قارئ القرآن الكريم</h1>
-        </div>
-
         <div class="controls-section">
             <div class="controls-wrapper">
                 <div class="control-group">
@@ -157,21 +153,20 @@ import Layout from '../layouts/Layout.astro';
                     <div class="surah-header">
                         <div class="surah-name-wrapper">
                             <span class="surah-ornament">﴿</span>
-                            <h2 class="surah-name" x-text="currentChapter.name_arabic"></h2>
+                            <div class="surah-name-container">
+                                <h2 class="surah-name" x-text="currentChapter.name_arabic"></h2>
+                                <p class="surah-name-english" x-text="currentChapter.name_english"></p>
+                            </div>
                             <span class="surah-ornament">﴾</span>
                         </div>
                         <div class="surah-meta">
                             <div class="surah-meta-item">
-                                <span class="surah-meta-label">الاسم</span>
-                                <span class="surah-meta-value" x-text="currentChapter.name_english"></span>
+                                <span class="surah-meta-icon" x-text="currentChapter.revelation_place === 'makkah' ? '🕋' : '🕌'"></span>
+                                <span class="surah-meta-value" x-text="currentChapter.revelation_place === 'makkah' ? 'مكية' : 'مدنية'"></span>
                             </div>
                             <div class="surah-meta-item">
-                                <span class="surah-meta-label">الآيات</span>
-                                <span class="surah-meta-value" x-text="currentChapter.verses_count"></span>
-                            </div>
-                            <div class="surah-meta-item">
-                                <span class="surah-meta-label">النزول</span>
-                                <span class="surah-meta-value" x-text="currentChapter.revelation_place === 'makkah' ? '🕋 مكية' : '🕌 مدنية'"></span>
+                                <span class="surah-meta-icon">📖</span>
+                                <span class="surah-meta-value" x-text="currentChapter.verses_count + ' آية'"></span>
                             </div>
                         </div>
                     </div>

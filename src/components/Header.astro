@@ -2,14 +2,14 @@
 const { currentPage } = Astro.props;
 ---
 
-<div class="header">
-    <nav class="nav-bar">
-        <a href="/" class="logo">
-            <span>🕌</span>
+<header class="header">
+    <nav class="nav-bar" aria-label="التنقل الرئيسي">
+        <a href="/" class="logo" aria-label="الصفحة الرئيسية">
+            <span aria-hidden="true">🕌</span>
             <span>Quran API</span>
         </a>
         <div class="nav-links">
             <a href="/reader" class:list={["nav-link", { active: currentPage === 'reader' }]}>القارئ</a>
         </div>
     </nav>
-</div>
+</header>
