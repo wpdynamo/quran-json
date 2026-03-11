@@ -1,10 +1,8 @@
-# Quran JSON (Multilang v4)
+# Quran JSON (Arabic + English)
 
-Arabic Uthmānī + transliteration + translations:
+Arabic Uthmānī + transliteration + English translation:
+- **AR**: Arabic Uthmani script
 - **EN**: Sahih International
-- **ID**: Kementerian Agama (Kemenag)
-- **ZH**: Ma Jian
-- **JA**: Ryoichi (Umar) Mita
 
 Also includes **Juz** and **Madani Page (1–604)** indexes.
 

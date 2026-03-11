@@ -23,7 +23,7 @@ import requests
 
 API_BASE = "https://api.quran.com/api/v4"
 OUT_DIR  = Path("assets/quran")
-BUNDLE_VERSION = "v4-uthmani+translit+EN(SI)+ID(KEMENAG)+ZH(MaJian)+JA(Mita)"
+BUNDLE_VERSION = "v4-uthmani+translit+EN(SI)"
 HEADERS = {"Accept": "application/json", "User-Agent": "SunnahCoach/1.4 (+quran.com/api)"}
 
 AYAH_COUNTS = {
@@ -40,16 +40,10 @@ AYAH_COUNTS = {
 }
 
 DESIRED = {
-  "en": ["sahih international", "saheeh international"],
-  "id": ["kementerian agama", "kemenag", "bahasa indonesia"],
-  "zh": ["ma jian"],
-  "ja": ["ryoichi mita", "umar mita", "mita"]
+  "en": ["sahih international", "saheeh international"]
 }
 LANG_SYNONYMS = {
-  "en": ["english"],
-  "id": ["indonesian", "bahasa indonesia"],
-  "zh": ["chinese", "中文", "简体", "繁體"],
-  "ja": ["japanese", "日本語"]
+  "en": ["english"]
 }
 
 # ---------- HTTP with retry ----------
@@ -90,7 +84,7 @@ def pick_ids() -> Tuple[Dict[str,int], Dict[int,Dict[str,Any]]]:
 
   # env pin
   choice = {}
-  for lang, env_key in [("en","QURAN_T_EN"), ("id","QURAN_T_ID"), ("zh","QURAN_T_ZH"), ("ja","QURAN_T_JA")]:
+  for lang, env_key in [("en","QURAN_T_EN")]:
     v = os.getenv(env_key)
     if v and v.isdigit() and int(v) in by_id:
       choice[lang] = int(v)
@@ -99,7 +93,7 @@ def pick_ids() -> Tuple[Dict[str,int], Dict[int,Dict[str,Any]]]:
     ln = (t.get("language_name") or "").lower()
     return any(s in ln for s in LANG_SYNONYMS[lang])
 
-  for lang in ["en","id","zh","ja"]:
+  for lang in ["en"]:
     if lang in choice:  # already pinned
       continue
     cands = [t for t in trs if is_lang(t, lang)]
@@ -141,7 +135,7 @@ def fetch_surah(surah: int,
                 by_juz: Dict[int, List[Tuple[int,int]]],
                 by_page: Dict[int, List[Tuple[int,int]]]) -> List[Dict[str,Any]]:
   fields = "text_uthmani,verse_key,juz_number,hizb_number,rub_number,page_number,ruku_number"
-  tr_str = ",".join(str(tr_ids[k]) for k in ["en","id","zh","ja"])
+  tr_str = ",".join(str(tr_ids[k]) for k in ["en"])
   tr_fields = "resource_name,language_name,id,resource_id"
   per_page = 50
   out: List[Dict[str,Any]] = []
@@ -178,7 +172,7 @@ def fetch_surah(surah: int,
       translit = re.sub(r"\s+", " ", " ".join(parts)).strip() if parts else None
 
       # translations
-      tr_map = {"en":None,"id":None,"zh":None,"ja":None}
+      tr_map = {"en":None}
       for t in (v.get("translations") or []):
         rid = int(t.get("resource_id") or t.get("id", -1))
         txt = (t.get("text") or "").strip()
@@ -248,7 +242,7 @@ def main():
         "id": tr_ids[lang],
         "name": tr_meta[tr_ids[lang]].get("resource_name") or tr_meta[tr_ids[lang]].get("name"),
         "language": tr_meta[tr_ids[lang]].get("language_name")
-      } for lang in ["en","id","zh","ja"]
+      } for lang in ["en"]
     },
     "surahCount": 114,
     "ayahTotal": sum(AYAH_COUNTS.values()),
