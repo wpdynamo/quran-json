@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "public",
+  "buildCommand": "bash build.sh",
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/assets/quran/(.*)",
