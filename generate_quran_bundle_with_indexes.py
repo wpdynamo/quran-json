@@ -23,7 +23,7 @@ import requests
 
 API_BASE = "https://api.quran.com/api/v4"
 OUT_DIR  = Path("assets/quran")
-BUNDLE_VERSION = "v4-uthmani+translit"
+BUNDLE_VERSION = "v4-uthmani+EN(SI)"
 HEADERS = {"Accept": "application/json", "User-Agent": "SunnahCoach/1.4 (+quran.com/api)"}
 
 AYAH_COUNTS = {
@@ -39,8 +39,12 @@ AYAH_COUNTS = {
   111:5,112:4,113:5,114:6
 }
 
-DESIRED = {}
-LANG_SYNONYMS = {}
+DESIRED = {
+  "en": ["sahih international", "saheeh international"]
+}
+LANG_SYNONYMS = {
+  "en": ["english"]
+}
 
 # ---------- HTTP with retry ----------
 def http_get(path: str, params: Dict[str, Any] = None) -> Dict[str, Any]:
@@ -80,10 +84,33 @@ def pick_ids() -> Tuple[Dict[str,int], Dict[int,Dict[str,Any]]]:
 
   # env pin
   choice = {}
-  # No translations needed - only Arabic + transliteration
+  for lang, env_key in [("en","QURAN_T_EN")]:
+    v = os.getenv(env_key)
+    if v and v.isdigit() and int(v) in by_id:
+      choice[lang] = int(v)
 
-  # No translation selection needed
-  return choice, {}
+  def is_lang(t, lang):
+    ln = (t.get("language_name") or "").lower()
+    return any(s in ln for s in LANG_SYNONYMS[lang])
+
+  for lang in ["en"]:
+    if lang in choice:  # already pinned
+      continue
+    cands = [t for t in trs if is_lang(t, lang)]
+    if not cands:
+      cands = trs[:]  # last resort
+    wanted = [w.lower() for w in DESIRED[lang]]
+    def score(t):
+      name = (t.get("resource_name") or t.get("name") or "").lower()
+      name_rank = min((i for i,w in enumerate(wanted) if w in name), default=99)
+      lang_penalty = 0 if is_lang(t, lang) else 50
+      return (name_rank + lang_penalty, -int(t.get("id",0)))
+    cands.sort(key=score)
+    if not cands or score(cands[0])[0] >= 149:
+      raise SystemExit(f"Couldn't find translation for {lang} (wanted {DESIRED[lang]})")
+    choice[lang] = int(cands[0]["id"])
+
+  return choice, {k: by_id[k] for k in choice.values()}
 
 # ---------- Utilities ----------
 def sha256_text(lines: List[str]) -> str:
@@ -108,7 +135,8 @@ def fetch_surah(surah: int,
                 by_juz: Dict[int, List[Tuple[int,int]]],
                 by_page: Dict[int, List[Tuple[int,int]]]) -> List[Dict[str,Any]]:
   fields = "text_uthmani,verse_key,juz_number,hizb_number,rub_number,page_number,ruku_number"
-  # No translations needed - only Arabic + transliteration
+  tr_str = ",".join(str(tr_ids[k]) for k in ["en"])
+  tr_fields = "resource_name,language_name,id,resource_id"
   per_page = 50
   out: List[Dict[str,Any]] = []
 
@@ -119,8 +147,8 @@ def fetch_surah(surah: int,
       params={
         "page": page_no, "per_page": per_page,
         "fields": fields,
-        "words": "true",
-        "word_fields": "transliteration"
+        "translations": tr_str,
+        "translation_fields": tr_fields
       }
     )
     chunk = data.get("verses", []) or []
@@ -134,14 +162,15 @@ def fetch_surah(surah: int,
       except Exception:
         s,a = surah, len(out)+1
 
-      # transliteration (join word translits)
-      parts = []
-      for w in (v.get("words") or []):
-        tt = (w.get("transliteration") or {}).get("text")
-        if tt: parts.append(tt)
-      translit = re.sub(r"\s+", " ", " ".join(parts)).strip() if parts else None
+      # English translation (stored in tl field instead of transliteration)
+      english_translation = None
+      for t in (v.get("translations") or []):
+        rid = int(t.get("resource_id") or t.get("id", -1))
+        txt = (t.get("text") or "").strip()
+        if txt and rid == tr_ids.get("en"):
+          english_translation = txt
+          break
 
-      # No translations - only Arabic + transliteration
       m = {
         "juz": v.get("juz_number"),
         "hizb": v.get("hizb_number"),
@@ -149,7 +178,7 @@ def fetch_surah(surah: int,
         "page": v.get("page_number"),
         "ruku": v.get("ruku_number")
       }
-      out.append({"s":s,"a":a,"ar":v.get("text_uthmani") or "","tl":translit,"m":m})
+      out.append({"s":s,"a":a,"ar":v.get("text_uthmani") or "","tl":english_translation,"m":m})
 
       if m["juz"] is not None:  by_juz[int(m["juz"])].append((s,a))
       if m["page"] is not None: by_page[int(m["page"])].append((s,a))
@@ -171,7 +200,10 @@ def main():
   OUT_DIR.mkdir(parents=True, exist_ok=True)
 
   tr_ids, tr_meta = pick_ids()
-  print("Arabic + Transliteration only (no translations)")
+  print("Selected translations:")
+  for lang, tid in tr_ids.items():
+    m = tr_meta[tid]
+    print(f"  {lang}: {(m.get('resource_name') or m.get('name'))} (id={tid}) -> stored in 'tl' field")
 
   by_juz, by_page = defaultdict(list), defaultdict(list)
   manifest_surahs = []
@@ -195,8 +227,15 @@ def main():
     "version": BUNDLE_VERSION,
     "source": "Quran Foundation / Quran.com v4",
     "script": "text_uthmani",
-    "hasTransliteration": True,
-    "translations": {},
+    "hasTransliteration": False,
+    "translations": {
+      lang: {
+        "id": tr_ids[lang],
+        "name": tr_meta[tr_ids[lang]].get("resource_name") or tr_meta[tr_ids[lang]].get("name"),
+        "language": tr_meta[tr_ids[lang]].get("language_name"),
+        "field": "tl"
+      } for lang in ["en"]
+    },
     "surahCount": 114,
     "ayahTotal": sum(AYAH_COUNTS.values()),
     "generatedAt": int(time.time()),
