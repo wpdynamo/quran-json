@@ -64,7 +64,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;
 .verse-number{background:#3498db;color:white;width:32px;height:32px;line-height:32px;border-radius:50%;text-align:center;font-weight:600;font-size:0.95em;flex-shrink:0}
 .verse-container.playing .verse-number{background:#27ae60}
 .verse-arabic{font-size:1.6em;line-height:2;color:#2c3e50;margin:15px 0;text-align:center}
-.verse-english{font-size:1em;color:#555;line-height:1.7;padding-top:12px;border-top:1px solid #ecf0f1}
+.verse-english{direction: ltr;font-size:1em;color:#555;line-height:1.7;padding-top:12px;border-top:1px solid #ecf0f1}
 .btn{padding:8px 18px;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;transition:all 0.3s;font-weight:600}
 .btn-play{background:#27ae60;color:white}
 .btn-play:hover{background:#229954}
