@@ -32,6 +32,13 @@
                     <option value="5">هاني الرفاعي</option>
                 </select>
             </div>
+            <div class="control-group">
+                <label class="control-label">عرض الترجمة</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="translationToggle" checked onchange="toggleTranslation()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
         </div>
     </div>
 
@@ -210,6 +217,15 @@
 
         // Load chapters on page load
         loadChapters();
+
+        // Toggle translation visibility
+        function toggleTranslation() {
+            const isChecked = document.getElementById('translationToggle').checked;
+            const translations = document.querySelectorAll('.verse-english');
+            translations.forEach(trans => {
+                trans.style.display = isChecked ? 'block' : 'none';
+            });
+        }
     </script>
 
     <div id="footer-placeholder"></div>

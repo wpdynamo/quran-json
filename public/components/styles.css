@@ -57,6 +57,12 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;
 .control-label{display:block;color:#2c3e50;font-weight:600;margin-bottom:8px;font-size:0.95em}
 .controls-wrapper select{padding:12px 15px;border:2px solid #e0e0e0;border-radius:6px;font-size:1em;background:white;cursor:pointer;width:100%;color:#2c3e50;font-weight:500;transition:all 0.3s}
 .controls-wrapper select:focus{outline:none;border-color:#3498db;box-shadow:0 0 0 3px rgba(52,152,219,0.1)}
+.toggle-switch{position:relative;display:inline-block;width:50px;height:26px}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;border-radius:26px;transition:0.3s}
+.toggle-slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s}
+.toggle-switch input:checked + .toggle-slider{background:#27ae60}
+.toggle-switch input:checked + .toggle-slider:before{transform:translateX(24px)}
 .surah-header{background:white;padding:30px 20px;border-radius:8px;text-align:center;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .surah-name-wrapper{display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:15px}
 .surah-ornament{font-size:2em;color:#27ae60;font-weight:300}
@@ -119,7 +125,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;
 .page-title{padding:25px 20px 20px}
 .page-title h1{font-size:2.2em}
 .controls-section{padding:30px 20px}
-.controls-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.controls-wrapper{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
 .control-group{margin-bottom:0}
 .control-label{font-size:1em}
 .container{max-width:1000px;margin:0 auto;padding:30px 20px}
