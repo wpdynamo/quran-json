@@ -1,6 +1,10 @@
 {
   "buildCommand": "bash build.sh",
   "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/reader", "destination": "/reader.html" },
+    { "source": "/404", "destination": "/404.html" }
+  ],
   "headers": [
     {
       "source": "/assets/quran/(.*)",
