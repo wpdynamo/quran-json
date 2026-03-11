@@ -4,6 +4,10 @@ node_modules/
 __pycache__/
 *.pyc
 
+# Astro
+dist/
+.astro/
+
 # Generated at build
 assets/
 public/assets/quran/

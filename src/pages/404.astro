@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - الصفحة غير موجودة">
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="error-code">404</div>
+            <h1>الصفحة غير موجودة</h1>
+            <p>عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها.</p>
+
+            <div class="suggestions">
+                <h3>📌 روابط مفيدة:</h3>
+                <ul>
+                    <li>🏠 <a href="/">الصفحة الرئيسية</a></li>
+                    <li>📖 <a href="/reader">قارئ القرآن الكريم</a></li>
+                    <li>📊 <a href="/assets/quran/stats.json">الإحصائيات</a></li>
+                    <li>📚 <a href="/assets/quran/chapters.json">معلومات السور</a></li>
+                </ul>
+            </div>
+
+            <a href="/" class="btn">العودة للرئيسية</a>
+        </div>
+    </div>
+</Layout>

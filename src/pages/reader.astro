@@ -1,0 +1,230 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="قارئ القرآن الكريم" currentPage="reader">
+    <div class="page-title">
+        <h1>قارئ القرآن الكريم</h1>
+    </div>
+
+    <div class="controls-section">
+        <div class="controls-wrapper">
+            <div class="control-group">
+                <label class="control-label">اختر السورة</label>
+                <select id="surahSelect">
+                    <option value="">اختر السورة...</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">اختر القارئ</label>
+                <select id="reciterSelect">
+                    <option value="7">مشاري راشد العفاسي</option>
+                    <option value="1">عبد الباسط عبد الصمد</option>
+                    <option value="2">عبد الرحمن السديس</option>
+                    <option value="3">عبد الله بصفر</option>
+                    <option value="4">أبو بكر الشاطري</option>
+                    <option value="5">هاني الرفاعي</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">عرض الترجمة</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="translationToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="content">
+            <div class="empty-state">
+                <div class="empty-state-icon">📚</div>
+                <div class="empty-state-text">اختر سورة من القائمة أعلاه للبدء</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="audioPlayer" class="audio-player">
+        <div class="audio-info" id="nowPlaying">جاري التشغيل...</div>
+        <div class="audio-controls">
+            <button onclick="stopAudio()">⏹ إيقاف</button>
+        </div>
+    </div>
+
+    <audio id="audio" preload="metadata"></audio>
+</Layout>
+
+<script>
+    let chapters: any[] = [];
+    let currentVerses: any[] = [];
+    let currentVerseIndex = -1;
+
+    async function loadChapters() {
+        try {
+            const res = await fetch('/assets/quran/chapters.json');
+            chapters = await res.json();
+            
+            const select = document.getElementById('surahSelect') as HTMLSelectElement;
+            chapters.forEach(ch => {
+                const option = document.createElement('option');
+                option.value = ch.id;
+                option.textContent = `${ch.id}. ${ch.name_arabic} (${ch.name_english})`;
+                select.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading chapters:', error);
+        }
+    }
+
+    async function loadSurah() {
+        const select = document.getElementById('surahSelect') as HTMLSelectElement;
+        const surahId = select.value;
+        if (!surahId) return;
+
+        const content = document.getElementById('content')!;
+        content.innerHTML = '<div class="loading">جاري التحميل</div>';
+
+        try {
+            const surahNum = String(surahId).padStart(3, '0');
+            const res = await fetch(`/assets/quran/s${surahNum}.json`);
+            currentVerses = await res.json();
+
+            const chapter = chapters.find(ch => ch.id == surahId);
+            
+            let html = `
+                <div class="surah-header">
+                    <div class="surah-name-wrapper">
+                        <span class="surah-ornament">﴿</span>
+                        <h2 class="surah-name">${chapter.name_arabic}</h2>
+                        <span class="surah-ornament">﴾</span>
+                    </div>
+                    <div class="surah-meta">
+                        <div class="surah-meta-item">
+                            <span class="surah-meta-label">الاسم</span>
+                            <span class="surah-meta-value">${chapter.name_english}</span>
+                        </div>
+                        <div class="surah-meta-item">
+                            <span class="surah-meta-label">الآيات</span>
+                            <span class="surah-meta-value">${chapter.verses_count}</span>
+                        </div>
+                        <div class="surah-meta-item">
+                            <span class="surah-meta-label">النزول</span>
+                            <span class="surah-meta-value">${chapter.revelation_place === 'makkah' ? '🕋 مكية' : '🕌 مدنية'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            currentVerses.forEach((verse, index) => {
+                html += `
+                    <div class="verse-container" id="verse-${index}">
+                        <div class="verse-header">
+                            <span class="verse-number">${verse.a}</span>
+                            <button class="btn btn-play" onclick="playVerse(${index})" id="btn-${index}">
+                                ▶ استمع
+                            </button>
+                        </div>
+                        <div class="verse-arabic">${verse.ar}</div>
+                        <div class="verse-english">${verse.en}</div>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = html;
+        } catch (error) {
+            console.error('Error loading surah:', error);
+            content.innerHTML = '<div class="loading">حدث خطأ في التحميل</div>';
+        }
+    }
+
+    function playVerse(index: number) {
+        const verse = currentVerses[index];
+        const reciterSelect = document.getElementById('reciterSelect') as HTMLSelectElement;
+        const reciterId = reciterSelect.value;
+        
+        const reciterMap: Record<string, string> = {
+            '1': 'Abdul_Basit_Murattal_192kbps',
+            '2': 'Abdurrahmaan_As-Sudais_192kbps',
+            '3': 'Abdullah_Basfar_192kbps',
+            '4': 'Abu_Bakr_Ash-Shaatree_128kbps',
+            '5': 'Hani_Rifai_192kbps',
+            '7': 'Alafasy_128kbps'
+        };
+        
+        const reciterFolder = reciterMap[reciterId] || 'Alafasy_128kbps';
+        const paddedSurah = String(verse.s).padStart(3, '0');
+        const paddedAyah = String(verse.a).padStart(3, '0');
+        const verseAudioUrl = `https://everyayah.com/data/${reciterFolder}/${paddedSurah}${paddedAyah}.mp3`;
+        
+        const audio = document.getElementById('audio') as HTMLAudioElement;
+        const player = document.getElementById('audioPlayer')!;
+        const nowPlaying = document.getElementById('nowPlaying')!;
+        
+        document.querySelectorAll('.verse-container').forEach(v => {
+            v.classList.remove('playing');
+        });
+        
+        document.getElementById(`verse-${index}`)!.classList.add('playing');
+        document.getElementById(`verse-${index}`)!.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+        
+        audio.src = verseAudioUrl;
+        audio.play().catch(err => {
+            console.error('Error playing audio:', err);
+            alert('عذراً، حدث خطأ في تشغيل الصوت');
+        });
+        
+        player.classList.add('active');
+        const chapter = chapters.find(ch => ch.id === verse.s);
+        nowPlaying.textContent = `🎧 الآية ${verse.a} من سورة ${chapter.name_arabic}`;
+        
+        currentVerseIndex = index;
+        
+        audio.onended = () => {
+            if (currentVerseIndex < currentVerses.length - 1) {
+                playVerse(currentVerseIndex + 1);
+            } else {
+                stopAudio();
+            }
+        };
+    }
+
+    function stopAudio() {
+        const audio = document.getElementById('audio') as HTMLAudioElement;
+        const player = document.getElementById('audioPlayer')!;
+        
+        audio.pause();
+        audio.currentTime = 0;
+        player.classList.remove('active');
+        
+        document.querySelectorAll('.verse-container').forEach(v => {
+            v.classList.remove('playing');
+        });
+        
+        currentVerseIndex = -1;
+    }
+
+    function toggleTranslation() {
+        const toggle = document.getElementById('translationToggle') as HTMLInputElement;
+        const isChecked = toggle.checked;
+        const translations = document.querySelectorAll('.verse-english');
+        translations.forEach(trans => {
+            (trans as HTMLElement).style.display = isChecked ? 'block' : 'none';
+        });
+    }
+
+    // Make functions global
+    (window as any).playVerse = playVerse;
+    (window as any).stopAudio = stopAudio;
+    (window as any).loadSurah = loadSurah;
+    (window as any).toggleTranslation = toggleTranslation;
+
+    loadChapters();
+
+    // Add event listeners
+    document.getElementById('surahSelect')?.addEventListener('change', loadSurah);
+    document.getElementById('translationToggle')?.addEventListener('change', toggleTranslation);
+</script>

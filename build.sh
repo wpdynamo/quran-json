@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# Install Python dependencies
+# Install Python dependencies and generate Quran data
 pip install -r requirements.txt
-
-# Run the generation script
 python3 generate_quran_bundle_with_indexes.py
 
-# Copy generated files to public directory
+# Copy generated files to public directory (for Astro)
 mkdir -p public/assets/quran
 cp -R assets/quran/* public/assets/quran/
+
+# Build Astro site
+npm run build
 
 echo "Build completed successfully!"

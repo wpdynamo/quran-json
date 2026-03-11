@@ -1,0 +1,121 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Quran JSON API - القرآن الكريم">
+    <div class="hero">
+        <h1>القرآن الكريم</h1>
+        <p class="subtitle">عربي + إنجليزي</p>
+        <a href="/reader" class="cta-button">
+            📖 قارئ القرآن الكريم
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>📖 عن المشروع</h2>
+            <p>API مجاني يوفر نصوص القرآن الكريم بالعربية مع الترجمة الإنجليزية (Sahih International) بصيغة JSON. البيانات مُولدة من Quran.com API v4 ومستضافة على Vercel.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📝</div>
+                <strong>114 سورة</strong>
+                <p>جميع سور القرآن الكريم</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🌍</div>
+                <strong>CORS مفتوح</strong>
+                <p>استخدام من أي تطبيق</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <strong>سريع جداً</strong>
+                <p>ملفات ثابتة محسّنة</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🆓</div>
+                <strong>مجاني تماماً</strong>
+                <p>استخدام غير محدود</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔗 نقاط النهاية (Endpoints)</h2>
+            
+            <div class="endpoint">
+                <strong>البيانات الوصفية:</strong>
+                <a href="/assets/quran/manifest_multi.json" target="_blank">/assets/quran/manifest_multi.json</a>
+            </div>
+
+            <div class="endpoint">
+                <strong>الإحصائيات:</strong>
+                <a href="/assets/quran/stats.json" target="_blank">/assets/quran/stats.json</a>
+            </div>
+
+            <div class="endpoint">
+                <strong>معلومات السور (الأسماء، عدد الآيات، مكان النزول):</strong>
+                <a href="/assets/quran/chapters.json" target="_blank">/assets/quran/chapters.json</a>
+            </div>
+
+            <div class="endpoint">
+                <strong>أسماء الله الحسنى (99 اسم):</strong>
+                <a href="/assets/quran/allah_names.json" target="_blank">/assets/quran/allah_names.json</a>
+            </div>
+
+            <div class="endpoint">
+                <strong>قائمة القراء:</strong>
+                <a href="/assets/quran/reciters.json" target="_blank">/assets/quran/reciters.json</a>
+            </div>
+
+            <div class="endpoint">
+                <strong>فهرس الأجزاء (30 جزء):</strong>
+                <a href="/assets/quran/index_juz.json" target="_blank">/assets/quran/index_juz.json</a>
+            </div>
+
+            <div class="endpoint">
+                <strong>فهرس الصفحات (604 صفحة):</strong>
+                <a href="/assets/quran/index_pages.json" target="_blank">/assets/quran/index_pages.json</a>
+            </div>
+
+            <div class="endpoint">
+                <strong>السور (من 001 إلى 114):</strong>
+                <code>/assets/quran/s&#123;رقم السورة&#125;.json</code>
+                <br><br>
+                مثال: <a href="/assets/quran/s001.json" target="_blank">/assets/quran/s001.json</a> (الفاتحة)
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📋 مثال على البيانات</h2>
+            <div class="json-example" set:html={`[
+  {
+    <span class="json-key">"s"</span>: <span class="json-number">1</span>,
+    <span class="json-key">"a"</span>: <span class="json-number">1</span>,
+    <span class="json-key">"ar"</span>: <span class="json-string">"بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ"</span>,
+    <span class="json-key">"en"</span>: <span class="json-string">"In the name of Allah, the Entirely Merciful..."</span>,
+    <span class="json-key">"m"</span>: {
+      <span class="json-key">"juz"</span>: <span class="json-number">1</span>,
+      <span class="json-key">"hizb"</span>: <span class="json-number">1</span>,
+      <span class="json-key">"rub"</span>: <span class="json-number">null</span>,
+      <span class="json-key">"page"</span>: <span class="json-number">1</span>,
+      <span class="json-key">"ruku"</span>: <span class="json-number">1</span>
+    }
+  }
+]`} />
+        </div>
+
+        <div class="section">
+            <h2>🔑 شرح الحقول</h2>
+            <div class="fields-list">
+                <ul>
+                    <li><code>s</code> - رقم السورة (من 1 إلى 114)</li>
+                    <li><code>a</code> - رقم الآية داخل السورة</li>
+                    <li><code>ar</code> - النص العربي (الرسم العثماني)</li>
+                    <li><code>en</code> - الترجمة الإنجليزية (Sahih International)</li>
+                    <li><code>m</code> - معلومات إضافية (الجزء، الحزب، الصفحة، الركوع)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</Layout>
