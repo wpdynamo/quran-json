@@ -22,6 +22,31 @@
             padding: 20px 15px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .back-btn::before {
+            content: '←';
+            font-size: 1.2em;
         }
         .header h1 {
             font-size: 1.5em;
@@ -296,19 +321,17 @@
                 padding: 12px 30px;
                 font-size: 1em;
             }
-            .back-link {
-                position: absolute;
-                right: 20px;
-                top: 30px;
-                font-size: 1.1em;
-                margin-bottom: 0;
+            .back-btn {
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <a href="/" class="back-link">← الرئيسية</a>
+        <a href="/" class="back-btn">الرئيسية</a>
         <h1>📖 قارئ القرآن الكريم</h1>
         <div class="controls">
             <select id="surahSelect" onchange="loadSurah()">
