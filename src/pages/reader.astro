@@ -7,7 +7,7 @@ import Layout from '../layouts/Layout.astro';
   description="اقرأ واستمع للقرآن الكريم مع الترجمة الإنجليزية. اختر من بين أشهر القراء مثل مشاري العفاسي وعبد الباسط عبد الصمد. تشغيل تلقائي للآيات."
   currentPage="reader"
 >
-    <div x-data="quranReader()" x-init="init()">
+    <div x-data="quranReader" x-init="loadChapters()"
         <div class="page-title">
             <h1>قارئ القرآن الكريم</h1>
         </div>
@@ -109,7 +109,7 @@ import Layout from '../layouts/Layout.astro';
 
     document.addEventListener('alpine:init', () => {
         // @ts-ignore
-        Alpine.data('quranReader', () => ({
+        Alpine.data('quranReader', {
             chapters: [] as any[],
             verses: [] as any[],
             selectedSurah: '',
@@ -129,10 +129,6 @@ import Layout from '../layouts/Layout.astro';
                 '5': 'Hani_Rifai_192kbps',
                 '7': 'Alafasy_128kbps'
             } as Record<string, string>,
-
-            async init() {
-                await this.loadChapters();
-            },
 
             async loadChapters() {
                 try {
@@ -210,6 +206,6 @@ import Layout from '../layouts/Layout.astro';
                     this.stopAudio();
                 }
             }
-        }));
+        });
     });
 </script>
