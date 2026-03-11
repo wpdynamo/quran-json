@@ -14,55 +14,63 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f8f9fa;
             min-height: 100vh;
+            padding-bottom: 80px;
         }
         .header {
             background: #2c3e50;
             color: white;
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         .header h1 {
-            font-size: 2em;
-            margin-bottom: 15px;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
         .controls {
             display: flex;
             gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 15px;
+            max-width: 800px;
+            margin: 0 auto;
         }
         .controls select {
-            padding: 10px 15px;
+            padding: 12px 20px;
             border: none;
             border-radius: 6px;
-            font-size: 1em;
+            font-size: 1.05em;
             background: white;
             cursor: pointer;
+            min-width: 200px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .controls select:focus {
+            outline: 2px solid #3498db;
         }
         .back-link {
             position: absolute;
             right: 20px;
-            top: 20px;
+            top: 30px;
             color: white;
             text-decoration: none;
             font-weight: 600;
+            font-size: 1.1em;
+            transition: opacity 0.3s;
         }
         .back-link:hover {
-            text-decoration: underline;
+            opacity: 0.8;
         }
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 30px 20px;
         }
         .surah-header {
             background: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 8px;
             text-align: center;
             margin-bottom: 30px;
@@ -71,11 +79,21 @@
         .surah-name {
             font-size: 2.5em;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
         .surah-info {
             color: #7f8c8d;
             font-size: 1.1em;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .surah-info span {
+            background: #f8f9fa;
+            padding: 8px 16px;
+            border-radius: 6px;
         }
         .verse-container {
             background: white;
@@ -87,13 +105,19 @@
         }
         .verse-container:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
         }
         .verse-container.playing {
             background: #e8f5e9;
-            border-right: 4px solid #4caf50;
+            box-shadow: 0 4px 16px rgba(39,174,96,0.2);
+        }
+        .verse-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
         }
         .verse-number {
-            display: inline-block;
             background: #3498db;
             color: white;
             width: 35px;
@@ -102,7 +126,10 @@
             border-radius: 50%;
             text-align: center;
             font-weight: 600;
-            margin-bottom: 15px;
+            font-size: 1em;
+        }
+        .verse-container.playing .verse-number {
+            background: #27ae60;
         }
         .verse-arabic {
             font-size: 2em;
@@ -119,31 +146,47 @@
             border-top: 1px solid #ecf0f1;
         }
         .verse-actions {
-            margin-top: 15px;
+            margin-top: 20px;
             display: flex;
             gap: 10px;
             justify-content: center;
         }
         .btn {
-            padding: 8px 20px;
+            padding: 10px 25px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95em;
+            font-size: 1em;
             transition: all 0.3s;
+            font-weight: 600;
         }
         .btn-play {
-            background: #4caf50;
+            background: #27ae60;
             color: white;
         }
         .btn-play:hover {
-            background: #45a049;
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        .btn-play:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
         }
         .loading {
             text-align: center;
-            padding: 60px;
+            padding: 80px 20px;
             color: #7f8c8d;
-            font-size: 1.2em;
+            font-size: 1.3em;
+        }
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
         }
         .audio-player {
             position: fixed;
@@ -152,32 +195,52 @@
             left: 0;
             background: #2c3e50;
             color: white;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+            padding: 20px;
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.2);
             display: none;
+            z-index: 1000;
         }
         .audio-player.active {
             display: block;
+        }
+        .audio-info {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
         }
         .audio-controls {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 15px;
         }
         .audio-controls button {
-            background: #3498db;
+            background: #e74c3c;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 30px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
         }
         .audio-controls button:hover {
-            background: #2980b9;
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #7f8c8d;
+        }
+        .empty-state-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+        .empty-state-text {
+            font-size: 1.3em;
+            color: #2c3e50;
         }
     </style>
 </head>
@@ -201,11 +264,16 @@
     </div>
 
     <div class="container">
-        <div id="content"></div>
+        <div id="content">
+            <div class="empty-state">
+                <div class="empty-state-icon">📚</div>
+                <div class="empty-state-text">اختر سورة من القائمة أعلاه للبدء</div>
+            </div>
+        </div>
     </div>
 
     <div id="audioPlayer" class="audio-player">
-        <div id="nowPlaying">جاري التشغيل...</div>
+        <div class="audio-info" id="nowPlaying">جاري التشغيل...</div>
         <div class="audio-controls">
             <button onclick="stopAudio()">⏹ إيقاف</button>
         </div>
@@ -216,7 +284,6 @@
     <script>
         let chapters = [];
         let currentVerses = [];
-        let currentAudio = null;
         let currentVerseIndex = -1;
 
         async function loadChapters() {
@@ -241,7 +308,7 @@
             if (!surahId) return;
 
             const content = document.getElementById('content');
-            content.innerHTML = '<div class="loading">جاري التحميل...</div>';
+            content.innerHTML = '<div class="loading">جاري التحميل</div>';
 
             try {
                 const surahNum = String(surahId).padStart(3, '0');
@@ -254,9 +321,9 @@
                     <div class="surah-header">
                         <div class="surah-name">${chapter.name_arabic}</div>
                         <div class="surah-info">
-                            ${chapter.name_english} | 
-                            ${chapter.verses_count} آية | 
-                            ${chapter.revelation_place === 'makkah' ? 'مكية' : 'مدنية'}
+                            <span>${chapter.name_english}</span>
+                            <span>${chapter.verses_count} آية</span>
+                            <span>${chapter.revelation_place === 'makkah' ? '🕋 مكية' : '🕌 مدنية'}</span>
                         </div>
                     </div>
                 `;
@@ -264,14 +331,14 @@
                 currentVerses.forEach((verse, index) => {
                     html += `
                         <div class="verse-container" id="verse-${index}">
-                            <span class="verse-number">${verse.a}</span>
-                            <div class="verse-arabic">${verse.ar}</div>
-                            <div class="verse-english">${verse.en}</div>
-                            <div class="verse-actions">
-                                <button class="btn btn-play" onclick="playVerse(${index})">
-                                    ▶ استمع للآية
+                            <div class="verse-header">
+                                <span class="verse-number">${verse.a}</span>
+                                <button class="btn btn-play" onclick="playVerse(${index})" id="btn-${index}">
+                                    ▶ استمع
                                 </button>
                             </div>
+                            <div class="verse-arabic">${verse.ar}</div>
+                            <div class="verse-english">${verse.en}</div>
                         </div>
                     `;
                 });
@@ -287,12 +354,6 @@
             const verse = currentVerses[index];
             const reciterId = document.getElementById('reciterSelect').value;
             
-            // Build audio URL - using correct CDN
-            // Format: https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3
-            const audioUrl = `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${verse.s}.mp3`;
-            
-            // For verse-by-verse, we need different approach
-            // Let's use everyayah.com which has verse-by-verse audio
             const reciterMap = {
                 '1': 'Abdul_Basit_Murattal_192kbps',
                 '2': 'Abdurrahmaan_As-Sudais_192kbps',
@@ -319,6 +380,12 @@
             // Add playing class to current verse
             document.getElementById(`verse-${index}`).classList.add('playing');
             
+            // Scroll to verse
+            document.getElementById(`verse-${index}`).scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
             audio.src = verseAudioUrl;
             audio.play().catch(err => {
                 console.error('Error playing audio:', err);
@@ -326,7 +393,8 @@
             });
             
             player.classList.add('active');
-            nowPlaying.textContent = `الآية ${verse.a} من سورة ${chapters.find(ch => ch.id === verse.s).name_arabic}`;
+            const chapter = chapters.find(ch => ch.id === verse.s);
+            nowPlaying.textContent = `🎧 الآية ${verse.a} من سورة ${chapter.name_arabic}`;
             
             currentVerseIndex = index;
             

@@ -24,8 +24,7 @@ Data is generated from Quran.com API v4 at build time and hosted as static files
 ## Features
 
 - 📖 **Quran Reader**: `/reader.html` - Read and listen to Quran with audio recitations
-- 🔍 **Search Page**: `/search.html` - Search in Quran (Arabic & English)
-- 🎧 **Audio Recitations**: Multiple reciters available
+- 🎧 **Audio Recitations**: Multiple famous reciters available
 - 📊 **Statistics**: Total verses, longest/shortest surah, and more
 - 📖 **Complete Info**: Chapter names, revelation place, verse counts
 
