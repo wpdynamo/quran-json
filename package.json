@@ -10,7 +10,9 @@
     "generate": "python3 -m pip install --break-system-packages -r requirements.txt && python3 generate_quran_bundle_with_indexes.py"
   },
   "dependencies": {
+    "@astrojs/alpinejs": "^0.5.0",
     "@astrojs/sitemap": "^3.7.1",
+    "@types/alpinejs": "^3.13.11",
     "alpinejs": "^3.15.8",
     "astro": "^6.0.2"
   },

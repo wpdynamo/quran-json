@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import alpine from '@astrojs/alpinejs';
 
 export default defineConfig({
   site: 'https://quran-json-sigma.vercel.app',
@@ -8,5 +9,8 @@ export default defineConfig({
     format: 'directory'
   },
   outDir: './dist',
-  integrations: [sitemap()]
+  integrations: [
+    alpine(),
+    sitemap()
+  ]
 });
