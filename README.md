@@ -1,8 +1,8 @@
-# Quran JSON (Arabic + English)
+# Quran JSON (Arabic + Transliteration)
 
-Arabic Uthmānī + transliteration + English translation:
+Arabic Uthmānī script + transliteration only:
 - **AR**: Arabic Uthmani script
-- **EN**: Sahih International
+- **TL**: Transliteration (romanized Arabic)
 
 Also includes **Juz** and **Madani Page (1–604)** indexes.
 
