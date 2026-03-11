@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icons from '../components/Icons.astro';
 ---
 
 <Layout 
@@ -13,35 +14,35 @@ import Layout from '../layouts/Layout.astro';
 
     <div class="container">
         <div class="section">
-            <h2>📖 عن المشروع</h2>
+            <h2><Icons name="bookOpen" size={20} /> عن المشروع</h2>
             <p>API مجاني يوفر نصوص القرآن الكريم بالعربية مع الترجمة الإنجليزية (Sahih International) بصيغة JSON. البيانات مُولدة من Quran.com API v4 ومستضافة على Vercel.</p>
         </div>
 
         <div class="features">
             <div class="feature">
-                <div class="feature-icon">📝</div>
+                <div class="feature-icon"><Icons name="book" size={40} /></div>
                 <strong>114 سورة</strong>
                 <p>جميع سور القرآن الكريم</p>
             </div>
             <div class="feature">
-                <div class="feature-icon">🌍</div>
+                <div class="feature-icon"><Icons name="globe" size={40} /></div>
                 <strong>CORS مفتوح</strong>
                 <p>استخدام من أي تطبيق</p>
             </div>
             <div class="feature">
-                <div class="feature-icon">⚡</div>
+                <div class="feature-icon"><Icons name="zap" size={40} /></div>
                 <strong>سريع جداً</strong>
                 <p>ملفات ثابتة محسّنة</p>
             </div>
             <div class="feature">
-                <div class="feature-icon">🆓</div>
+                <div class="feature-icon"><Icons name="gift" size={40} /></div>
                 <strong>مجاني تماماً</strong>
                 <p>استخدام غير محدود</p>
             </div>
         </div>
 
         <div class="section">
-            <h2>🔗 نقاط النهاية (Endpoints)</h2>
+            <h2><Icons name="book" size={20} /> نقاط النهاية (Endpoints)</h2>
             
             <div class="endpoint">
                 <strong>البيانات الوصفية:</strong>

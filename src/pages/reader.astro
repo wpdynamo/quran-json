@@ -1,150 +1,150 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icons from '../components/Icons.astro';
 ---
-
-<script is:inline>
-    window.quranReaderData = {
-        chapters: [],
-        verses: [],
-        selectedSurah: '',
-        selectedReciter: '7',
-        showTranslation: true,
-        loading: false,
-        isPlaying: false,
-        playingIndex: -1,
-        nowPlayingText: 'جاري التشغيل...',
-        currentChapter: null,
-
-        reciterMap: {
-            '1': 'Abdul_Basit_Murattal_192kbps',
-            '2': 'Abdurrahmaan_As-Sudais_192kbps',
-            '3': 'Abdullah_Basfar_192kbps',
-            '4': 'Abu_Bakr_Ash-Shaatree_128kbps',
-            '5': 'Hani_Rifai_192kbps',
-            '7': 'Alafasy_128kbps'
-        },
-
-        async loadChapters() {
-            try {
-                const res = await fetch('/assets/quran/chapters.json');
-                this.chapters = await res.json();
-            } catch (error) {
-                console.error('Error loading chapters:', error);
-            }
-        },
-
-        async loadSurah() {
-            if (!this.selectedSurah) return;
-
-            this.loading = true;
-            this.verses = [];
-            this.stopAudio();
-
-            try {
-                const surahNum = String(this.selectedSurah).padStart(3, '0');
-                const res = await fetch(`/assets/quran/s${surahNum}.json`);
-                this.verses = await res.json();
-                this.currentChapter = this.chapters.find(ch => ch.id == this.selectedSurah);
-            } catch (error) {
-                console.error('Error loading surah:', error);
-            } finally {
-                this.loading = false;
-            }
-        },
-
-        playVerse(index) {
-            const verse = this.verses[index];
-            const reciterFolder = this.reciterMap[this.selectedReciter] || 'Alafasy_128kbps';
-            const paddedSurah = String(verse.s).padStart(3, '0');
-            const paddedAyah = String(verse.a).padStart(3, '0');
-            const verseAudioUrl = `https://everyayah.com/data/${reciterFolder}/${paddedSurah}${paddedAyah}.mp3`;
-
-            const audio = this.$refs.audio;
-            
-            this.playingIndex = index;
-            this.isPlaying = true;
-            
-            audio.src = verseAudioUrl;
-            audio.play().catch(err => {
-                console.error('Error playing audio:', err);
-                alert('عذراً، حدث خطأ في تشغيل الصوت');
-                this.isPlaying = false;
-            });
-
-            this.nowPlayingText = `🎧 الآية ${verse.a} من سورة ${this.currentChapter.name_arabic}`;
-
-            setTimeout(() => {
-                const verseEl = document.querySelector('.verse-container.playing');
-                if (verseEl) {
-                    verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 100);
-        },
-
-        stopAudio() {
-            const audio = this.$refs.audio;
-            audio.pause();
-            audio.currentTime = 0;
-            this.isPlaying = false;
-            this.playingIndex = -1;
-        },
-
-        onAudioEnded() {
-            if (this.playingIndex < this.verses.length - 1) {
-                this.playVerse(this.playingIndex + 1);
-            } else {
-                this.stopAudio();
-            }
-        }
-    };
-</script>
 
 <Layout 
   title="قارئ القرآن الكريم | Quran Reader" 
   description="اقرأ واستمع للقرآن الكريم مع الترجمة الإنجليزية. اختر من بين أشهر القراء مثل مشاري العفاسي وعبد الباسط عبد الصمد. تشغيل تلقائي للآيات."
   currentPage="reader"
 >
+    <script is:inline slot="head">
+        window.quranReaderData = {
+            chapters: [],
+            verses: [],
+            selectedSurah: '',
+            selectedReciter: '7',
+            showTranslation: true,
+            loading: false,
+            isPlaying: false,
+            playingIndex: -1,
+            nowPlayingText: 'جاري التشغيل...',
+            currentChapter: null,
+
+            reciterMap: {
+                '1': 'Abdul_Basit_Murattal_192kbps',
+                '2': 'Abdurrahmaan_As-Sudais_192kbps',
+                '3': 'Abdullah_Basfar_192kbps',
+                '4': 'Abu_Bakr_Ash-Shaatree_128kbps',
+                '5': 'Hani_Rifai_192kbps',
+                '7': 'Alafasy_128kbps'
+            },
+
+            async loadChapters() {
+                try {
+                    const res = await fetch('/assets/quran/chapters.json');
+                    this.chapters = await res.json();
+                } catch (error) {
+                    console.error('Error loading chapters:', error);
+                }
+            },
+
+            async loadSurah() {
+                if (!this.selectedSurah) return;
+
+                this.loading = true;
+                this.verses = [];
+                this.stopAudio();
+
+                try {
+                    const surahNum = String(this.selectedSurah).padStart(3, '0');
+                    const res = await fetch(`/assets/quran/s${surahNum}.json`);
+                    this.verses = await res.json();
+                    this.currentChapter = this.chapters.find(ch => ch.id == this.selectedSurah);
+                } catch (error) {
+                    console.error('Error loading surah:', error);
+                } finally {
+                    this.loading = false;
+                }
+            },
+
+            playVerse(index) {
+                const verse = this.verses[index];
+                const reciterFolder = this.reciterMap[this.selectedReciter] || 'Alafasy_128kbps';
+                const paddedSurah = String(verse.s).padStart(3, '0');
+                const paddedAyah = String(verse.a).padStart(3, '0');
+                const verseAudioUrl = `https://everyayah.com/data/${reciterFolder}/${paddedSurah}${paddedAyah}.mp3`;
+
+                const audio = this.$refs.audio;
+                
+                this.playingIndex = index;
+                this.isPlaying = true;
+                
+                audio.src = verseAudioUrl;
+                audio.play().catch(err => {
+                    console.error('Error playing audio:', err);
+                    alert('عذراً، حدث خطأ في تشغيل الصوت');
+                    this.isPlaying = false;
+                });
+
+                this.nowPlayingText = `الآية ${verse.a} من سورة ${this.currentChapter.name_arabic}`;
+
+                setTimeout(() => {
+                    const verseEl = document.querySelector('.verse-container.playing');
+                    if (verseEl) {
+                        verseEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            },
+
+            stopAudio() {
+                const audio = this.$refs.audio;
+                audio.pause();
+                audio.currentTime = 0;
+                this.isPlaying = false;
+                this.playingIndex = -1;
+            },
+
+            onAudioEnded() {
+                if (this.playingIndex < this.verses.length - 1) {
+                    this.playVerse(this.playingIndex + 1);
+                } else {
+                    this.stopAudio();
+                }
+            }
+        };
+    </script>
+
     <div x-data="window.quranReaderData" x-init="loadChapters()">
-        <div class="controls-section">
+        <section class="controls-section" aria-label="إعدادات القراءة">
             <div class="controls-wrapper">
-                <div class="control-group">
-                    <label class="control-label">اختر السورة</label>
-                    <select x-model="selectedSurah" @change="loadSurah()">
-                        <option value="">اختر السورة...</option>
+                <div class="control-row">
+                    <label for="surahSelect" class="control-label">السورة</label>
+                    <select id="surahSelect" x-model="selectedSurah" @change="loadSurah()" aria-label="اختر السورة">
+                        <option value="">اختر...</option>
                         <template x-for="chapter in chapters" :key="chapter.id">
-                            <option :value="chapter.id" x-text="`${chapter.id}. ${chapter.name_arabic} (${chapter.name_english})`"></option>
+                            <option :value="chapter.id" x-text="`${chapter.id}. ${chapter.name_arabic}`"></option>
                         </template>
                     </select>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">اختر القارئ</label>
-                    <select x-model="selectedReciter">
-                        <option value="7">مشاري راشد العفاسي</option>
-                        <option value="1">عبد الباسط عبد الصمد</option>
-                        <option value="2">عبد الرحمن السديس</option>
+                
+                <div class="control-row">
+                    <label for="reciterSelect" class="control-label">القارئ</label>
+                    <select id="reciterSelect" x-model="selectedReciter" aria-label="اختر القارئ">
+                        <option value="7">مشاري العفاسي</option>
+                        <option value="1">عبد الباسط</option>
+                        <option value="2">السديس</option>
                         <option value="3">عبد الله بصفر</option>
-                        <option value="4">أبو بكر الشاطري</option>
+                        <option value="4">الشاطري</option>
                         <option value="5">هاني الرفاعي</option>
                     </select>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">عرض الترجمة</label>
-                    <div class="toggle-container">
-                        <label class="toggle-switch">
-                            <input type="checkbox" x-model="showTranslation">
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span class="toggle-label">إظهار الترجمة الإنجليزية</span>
-                    </div>
+                
+                <div class="control-row control-row-toggle">
+                    <span class="control-label">الترجمة</span>
+                    <label class="toggle-switch" for="translationToggle">
+                        <input type="checkbox" id="translationToggle" x-model="showTranslation">
+                        <span class="toggle-slider"></span>
+                    </label>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="container">
             <div x-show="loading" class="loading">جاري التحميل</div>
             
             <div x-show="!loading && !selectedSurah" class="empty-state">
-                <div class="empty-state-icon">📚</div>
+                <div class="empty-state-icon"><Icons name="bookOpen" size={56} /></div>
                 <div class="empty-state-text">اختر سورة من القائمة أعلاه للبدء</div>
             </div>
 
@@ -161,11 +161,11 @@ import Layout from '../layouts/Layout.astro';
                         </div>
                         <div class="surah-meta">
                             <div class="surah-meta-item">
-                                <span class="surah-meta-icon" x-text="currentChapter.revelation_place === 'makkah' ? '🕋' : '🕌'"></span>
+                                <span class="surah-meta-icon" x-html="currentChapter.revelation_place === 'makkah' ? '<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;><path d=&quot;M12 2L4 6v12l8 4 8-4V6l-8-4zm0 2.5l5 2.5v8l-5 2.5-5-2.5v-8l5-2.5z&quot;/><rect x=&quot;10&quot; y=&quot;8&quot; width=&quot;4&quot; height=&quot;6&quot; fill=&quot;white&quot;/></svg>' : '<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M12 2L8 6v2H6v14h12V8h-2V6l-4-4z&quot;/><path d=&quot;M8 8h8&quot;/><path d=&quot;M10 12h4&quot;/><path d=&quot;M10 16h4&quot;/></svg>'"></span>
                                 <span class="surah-meta-value" x-text="currentChapter.revelation_place === 'makkah' ? 'مكية' : 'مدنية'"></span>
                             </div>
                             <div class="surah-meta-item">
-                                <span class="surah-meta-icon">📖</span>
+                                <span class="surah-meta-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
                                 <span class="surah-meta-value" x-text="currentChapter.verses_count + ' آية'"></span>
                             </div>
                         </div>
@@ -176,7 +176,8 @@ import Layout from '../layouts/Layout.astro';
                             <div class="verse-header">
                                 <span class="verse-number" x-text="verse.a"></span>
                                 <button class="btn btn-play" @click="playVerse(index)">
-                                    ▶ استمع
+                                    <Icons name="play" size={14} />
+                                    <span>استمع</span>
                                 </button>
                             </div>
                             <div class="verse-arabic" x-text="verse.ar"></div>
@@ -188,9 +189,15 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="audio-player" :class="{ 'active': isPlaying }">
-            <div class="audio-info" x-text="nowPlayingText"></div>
+            <div class="audio-info">
+                <Icons name="headphones" size={18} />
+                <span x-text="nowPlayingText"></span>
+            </div>
             <div class="audio-controls">
-                <button @click="stopAudio()">⏹ إيقاف</button>
+                <button @click="stopAudio()">
+                    <Icons name="stop" size={16} />
+                    <span>إيقاف</span>
+                </button>
             </div>
         </div>
 

@@ -1,11 +1,12 @@
 ---
+import Icons from './Icons.astro';
 const { currentPage } = Astro.props;
 ---
 
 <header class="header">
     <nav class="nav-bar" aria-label="التنقل الرئيسي">
         <a href="/" class="logo" aria-label="الصفحة الرئيسية">
-            <span aria-hidden="true">🕌</span>
+            <Icons name="mosque" size={20} />
             <span>Quran API</span>
         </a>
         <div class="nav-links">
