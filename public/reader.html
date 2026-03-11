@@ -91,11 +91,24 @@
                 
                 let html = `
                     <div class="surah-header">
-                        <div class="surah-name">${chapter.name_arabic}</div>
-                        <div class="surah-info">
-                            <span>${chapter.name_english}</span>
-                            <span>${chapter.verses_count} آية</span>
-                            <span>${chapter.revelation_place === 'makkah' ? '🕋 مكية' : '🕌 مدنية'}</span>
+                        <div class="surah-name-wrapper">
+                            <span class="surah-ornament">﴿</span>
+                            <h2 class="surah-name">${chapter.name_arabic}</h2>
+                            <span class="surah-ornament">﴾</span>
+                        </div>
+                        <div class="surah-meta">
+                            <div class="surah-meta-item">
+                                <span class="surah-meta-label">الاسم</span>
+                                <span class="surah-meta-value">${chapter.name_english}</span>
+                            </div>
+                            <div class="surah-meta-item">
+                                <span class="surah-meta-label">الآيات</span>
+                                <span class="surah-meta-value">${chapter.verses_count}</span>
+                            </div>
+                            <div class="surah-meta-item">
+                                <span class="surah-meta-label">النزول</span>
+                                <span class="surah-meta-value">${chapter.revelation_place === 'makkah' ? '🕋 مكية' : '🕌 مدنية'}</span>
+                            </div>
                         </div>
                     </div>
                 `;
