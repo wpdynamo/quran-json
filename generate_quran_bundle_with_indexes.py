@@ -228,6 +228,21 @@ def main():
   shutil.copy("allah_names.json", OUT_DIR / "allah_names.json")
   print("✅ Allah names copied")
 
+  # Fetch reciters list
+  print("\nFetching reciters...")
+  reciters_data = http_get("/resources/chapter_reciters")
+  reciters_list = []
+  for rec in reciters_data.get("reciters", []):
+    reciters_list.append({
+      "id": rec.get("id"),
+      "name": rec.get("name"),
+      "arabic_name": rec.get("arabic_name"),
+      "style": rec.get("style"),
+      "format": rec.get("format", "mp3")
+    })
+  (OUT_DIR / "reciters.json").write_text(json.dumps(reciters_list, ensure_ascii=False, indent=2), "utf-8")
+  print(f"✅ Reciters saved ({len(reciters_list)} reciters)")
+
   # Generate statistics
   stats = {
     "total_surahs": 114,
@@ -281,7 +296,7 @@ def main():
     "checks": {"verseCounts": True, "sha256": True}
   }
   (OUT_DIR / "manifest_multi.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), "utf-8")
-  print("✅ Done → assets/quran/ (114 surahs + chapters + allah_names + stats + indexes)")
+  print("✅ Done → assets/quran/ (114 surahs + chapters + reciters + allah_names + stats + indexes)")
 
 if __name__ == "__main__":
   main()
