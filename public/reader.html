@@ -57,6 +57,20 @@
         let chapters = [];
         let currentVerses = [];
         let currentVerseIndex = -1;
+        const loadedFonts = new Set();
+
+        // Load page-specific font
+        function loadPageFont(pageNumber) {
+            if (loadedFonts.has(pageNumber)) return;
+            
+            const fontFace = new FontFace('QuranPage', `url(/fonts/hafs-v2/p${pageNumber}.woff2)`);
+            fontFace.load().then(font => {
+                document.fonts.add(font);
+                loadedFonts.add(pageNumber);
+            }).catch(err => {
+                console.error(`Error loading font for page ${pageNumber}:`, err);
+            });
+        }
 
         async function loadChapters() {
             try {
@@ -89,6 +103,10 @@
 
                 const chapter = chapters.find(ch => ch.id == surahId);
                 
+                // Load fonts for all pages in this surah
+                const pages = [...new Set(currentVerses.map(v => v.m.page))];
+                pages.forEach(page => loadPageFont(page));
+                
                 let html = `
                     <div class="surah-header">
                         <div class="surah-name">${chapter.name_arabic}</div>
@@ -102,14 +120,14 @@
 
                 currentVerses.forEach((verse, index) => {
                     html += `
-                        <div class="verse-container" id="verse-${index}">
+                        <div class="verse-container" id="verse-${index}" data-page="${verse.m.page}">
                             <div class="verse-header">
                                 <span class="verse-number">${verse.a}</span>
                                 <button class="btn btn-play" onclick="playVerse(${index})" id="btn-${index}">
                                     ▶ استمع
                                 </button>
                             </div>
-                            <div class="verse-arabic">${verse.ar}</div>
+                            <div class="verse-arabic" style="font-family: QuranPage, serif;">${verse.ar}</div>
                             <div class="verse-english">${verse.en}</div>
                         </div>
                     `;

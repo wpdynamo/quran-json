@@ -1,9 +1,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;min-height:100vh}
 
-/* Quran Fonts */
-@font-face{font-family:'Quran';src:url('/fonts/hafs-unicode/digitalkhatt.otf') format('opentype');font-weight:normal;font-style:normal;font-display:swap}
-@font-face{font-family:'Quran2';src:url('/fonts/hafs-unicode/AyatQuran2-PVKGm.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:swap}
+/* Quran Fonts - Hafs V2 (page-specific fonts loaded dynamically) */
+.verse-arabic{font-family:'QuranPage',serif}
 
 .header{background:#2c3e50;color:white;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .nav-bar{display:flex;align-items:center;justify-content:space-between;padding:15px;max-width:1200px;margin:0 auto}
@@ -68,7 +67,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;
 .verse-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
 .verse-number{background:#3498db;color:white;width:32px;height:32px;line-height:32px;border-radius:50%;text-align:center;font-weight:600;font-size:0.95em;flex-shrink:0}
 .verse-container.playing .verse-number{background:#27ae60}
-.verse-arabic{font-family:'Quran',serif;font-size:1.8em;line-height:2.2;color:#2c3e50;margin:15px 0;text-align:center}
+.verse-arabic{font-size:1.8em;line-height:2.2;color:#2c3e50;margin:15px 0;text-align:center}
 .verse-english{direction: ltr;font-size:1em;color:#555;line-height:1.7;padding-top:12px;border-top:1px solid #ecf0f1}
 .btn{padding:8px 18px;border:none;border-radius:6px;cursor:pointer;font-size:0.9em;transition:all 0.3s;font-weight:600}
 .btn-play{background:#27ae60;color:white}
@@ -125,7 +124,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f8f9fa;
 .surah-info{flex-direction:row;justify-content:center;font-size:1.1em;gap:15px}
 .verse-container{padding:30px;margin-bottom:20px}
 .verse-number{width:35px;height:35px;line-height:35px;font-size:1em}
-.verse-arabic{font-family:'Quran',serif;font-size:2.2em;line-height:2.4;margin:20px 0}
+.verse-arabic{font-size:2.2em;line-height:2.4;margin:20px 0}
 .verse-english{font-size:1.1em;line-height:1.8;padding-top:15px}
 .btn{padding:10px 25px;font-size:1em}
 .audio-player{padding:20px}
